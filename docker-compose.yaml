@@ -1,7 +1,7 @@
-version: '3.7'
+version: "3.7"
 
 networks:
- nextcloud:
+  nextcloud:
 
 services:
   prometheus:
@@ -12,10 +12,10 @@ services:
       - /mnt/external/metrics/prometheus/config:/etc/prometheus/
       - /mnt/external/metrics/prometheus/data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
     ports:
-      - "127.0.0.1:9090:9090"
+      - "192.168.1.18:9090:9090"
     links:
       - cadvisor:cadvisor
       - node-exporter:node-exporter
@@ -27,7 +27,7 @@ services:
     container_name: monitoring_node_exporter
     restart: unless-stopped
     ports:
-      - "127.0.0.1:9100:9100"
+      - "192.168.1.18:9100:9100"
     networks:
       - nextcloud
 
@@ -44,7 +44,7 @@ services:
     devices:
       - /dev/sda
     ports:
-      - "127.0.0.1:8080:8080"
+      - "192.168.1.18:8080:8080"
     networks:
       - nextcloud
 
@@ -60,17 +60,17 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SERVER_DOMAIN='${GRAFANA_FQDN}'
     ports:
-      - "127.0.0.1:3000:3000"
+      - "192.168.1.18:3000:3000"
     networks:
       - nextcloud
-  
+
   nextcloud:
     image: nextcloud
     container_name: nextcloud
     networks:
       - nextcloud
     ports:
-      - "127.0.0.1:80:80"
+      - "192.168.1.18:80:80"
     volumes:
       - ${NEXTCLOUD_ROOT}/html:/var/www/html
       - ${NEXTCLOUD_ROOT}/data:/srv/nextcloud/data
@@ -117,13 +117,13 @@ services:
     networks:
       - nextcloud
     ports:
-      - "127.0.0.1:9980:9980"
+      - "192.168.1.18:9980:9980"
     extra_hosts:
       - "${NEXTCLOUD_FQDN}:${NEXTCLOUD_IPADDRESS}"
       - "${COLLABORA_FQDN}:${NEXTCLOUD_IPADDRESS}"
     environment:
-      - 'domain=${NEXTCLOUD_FQDN}'
-      - 'dictionaries=en'
+      - "domain=${NEXTCLOUD_FQDN}"
+      - "dictionaries=en"
     cap_add:
       - MKNOD
     tty: true
