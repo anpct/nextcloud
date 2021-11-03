@@ -1,3 +1,3 @@
 # nextcloud
 
-docker compose for setting up nexlouds with grafana and prometheus for monitoring
+docker compose for setting up nextcloud with grafana and prometheus for monitoring
